@@ -38,7 +38,7 @@ void SysTick_Init(void)
 		while (1);
 	}
 		// 关闭滴答定时器  
-	SysTick->CTRL &= ~ SysTick_CTRL_ENABLE_Msk;
+	SysTick->CTRL |= SysTick_CTRL_ENABLE_Msk;
 }
 
 
@@ -51,11 +51,9 @@ void TimingDelay_Decrement(void)
 
 void mdelay(unsigned long nTime)
 {
-  // 关闭滴答定时器  
-	SysTick->CTRL |= SysTick_CTRL_ENABLE_Msk;
+  // 关闭滴答定时器
 	TimingDelay = nTime;
 	while(TimingDelay != 0);
-  SysTick->CTRL &= ~ SysTick_CTRL_ENABLE_Msk;
 }
 
 
