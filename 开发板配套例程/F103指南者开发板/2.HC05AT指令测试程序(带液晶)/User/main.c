@@ -96,6 +96,8 @@ int main(void)
 	HC05_Send_CMD(hc05_nameCMD,1);
 
 	HC05_INFO("本模块名字为:%s ,模块已准备就绪。",hc05_name);
+	ILI9341_DispStringLine_EN ( (LINE(4)), "ReceiveData USART1" );	
+  ILI9341_DispStringLine_EN ( (LINE(9)), "ReceiveData HC-05" );	
 	while(1)
 	{	
 	  if(DEBUG_USART_ReceiveData.receive_data_flag == 1)
@@ -104,7 +106,10 @@ int main(void)
 			if(strstr((char *)DEBUG_USART_ReceiveData.uart_buff,"AT"))//如果数据是以AT开头的，就把KEY置高，设置蓝牙模块
 			{
 				BLT_KEY_HIGHT;
-				Usart_SendStr_length(BLT_USARTx,DEBUG_USART_ReceiveData.uart_buff,DEBUG_USART_ReceiveData.datanum);
+				delay_ms(20);
+				Usart_SendStr_length(BLT_USARTx,DEBUG_USART_ReceiveData.uart_buff,DEBUG_USART_ReceiveData.datanum);	
+			  Usart_SendStr_length(BLT_USARTx,"\r\n",2);	
+				BLT_KEY_LOW
 			}else if(strstr((char *)DEBUG_USART_ReceiveData.uart_buff,"RED_LED"))
 			{
 				LED1_TOGGLE;
@@ -114,31 +119,32 @@ int main(void)
 				BLT_KEY_LOW;
 				Usart_SendStr_length(BLT_USARTx,DEBUG_USART_ReceiveData.uart_buff,DEBUG_USART_ReceiveData.datanum);
 			}
-			LCD_ClearLine(LINE(5));
-			LCD_ClearLine(LINE(6));
-			LCD_ClearLine(LINE(7));
-			LCD_ClearLine(LINE(8));
-			ILI9341_DispStringLine_EN ( (LINE(5)), (char *)DEBUG_USART_ReceiveData.uart_buff );
-			DEBUG_USART_ReceiveData.receive_data_flag = 0;		//接收数据标志清零
-			DEBUG_USART_ReceiveData.datanum = 0;               
+		  	LCD_ClearLine(LINE(5));
+	  		LCD_ClearLine(LINE(6));
+		  	LCD_ClearLine(LINE(7));
+		  	LCD_ClearLine(LINE(8));
+		  	ILI9341_DispStringLine_EN ( (LINE(5)), (char *)DEBUG_USART_ReceiveData.uart_buff );
+		  	DEBUG_USART_ReceiveData.receive_data_flag = 0;		//接收数据标志清零
+		  	DEBUG_USART_ReceiveData.datanum = 0;               
 		}
 		if(BLT_USART_ReceiveData.receive_data_flag == 1)
 		{
-			DEBUG_USART_ReceiveData.uart_buff[DEBUG_USART_ReceiveData.datanum] = 0;
-			if(strstr((char *)DEBUG_USART_ReceiveData.uart_buff,"RED_LED"))//在这里可以自己定义想要接收的字符串然后处理
+			  BLT_USART_ReceiveData.uart_buff[BLT_USART_ReceiveData.datanum] = 0;
+			if(strstr((char *)BLT_USART_ReceiveData.uart_buff,"RED_LED"))//在这里可以自己定义想要接收的字符串然后处理
 			{
 				LED1_TOGGLE; //这里接收到串口调试助手或者是手机发来的 “RED_LED”就会把板子上面的红灯取反一次	
 			}
 			else
 			{			
-				Usart_SendStr_length(DEBUG_USARTx,BLT_USART_ReceiveData.uart_buff,BLT_USART_ReceiveData.datanum);  
+				Usart_SendStr_length(DEBUG_USARTx,BLT_USART_ReceiveData.uart_buff,BLT_USART_ReceiveData.datanum); 
+			  Usart_SendStr_length(DEBUG_USARTx,"\r\n",2);					
 			}		
-      LCD_ClearLine(LINE(10));
-			LCD_ClearLine(LINE(11));
-			LCD_ClearLine(LINE(12));
-			LCD_ClearLine(LINE(13));
-			ILI9341_DispStringLine_EN ( (LINE(10)), (char *)BLT_USART_ReceiveData.uart_buff );
-			clean_rebuff();
+        LCD_ClearLine(LINE(10));
+		  	LCD_ClearLine(LINE(11));
+		  	LCD_ClearLine(LINE(12));
+		  	LCD_ClearLine(LINE(13));
+			  ILI9341_DispStringLine_EN ( (LINE(10)), (char *)BLT_USART_ReceiveData.uart_buff );
+		  	clean_rebuff();
 		}
 	}
 }

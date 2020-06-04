@@ -24,7 +24,7 @@ static void BLT_NVIC_Configuration(void)
 {
     NVIC_InitTypeDef NVIC_InitStructure;
     /* Configure the NVIC Preemption Priority Bits */
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 
     /* Enable the USARTy Interrupt */
     NVIC_InitStructure.NVIC_IRQChannel = BLT_USART_IRQ;
@@ -114,6 +114,7 @@ void Usart_SendString( USART_TypeDef * pUSARTx, uint8_t *str)
     } while(*(str + k)!='\0');
 }
 
+//中断缓存串口数据
 ReceiveData BLT_USART_ReceiveData;
 void bsp_USART_Process(void)
 {
@@ -123,8 +124,11 @@ void bsp_USART_Process(void)
 				ucCh = USART_ReceiveData(BLT_USARTx);
 				if(BLT_USART_ReceiveData.datanum < UART_BUFF_SIZE)
 					{
-						BLT_USART_ReceiveData.uart_buff[BLT_USART_ReceiveData.datanum] = ucCh;
-            BLT_USART_ReceiveData.datanum++;
+						if((ucCh != 0x0a) && (ucCh != 0x0d))
+						{
+							BLT_USART_ReceiveData.uart_buff[BLT_USART_ReceiveData.datanum] = ucCh;                 //不接收换行回车
+              BLT_USART_ReceiveData.datanum++;
+						}
 					}         
        }
 		if(USART_GetITStatus( BLT_USARTx, USART_IT_IDLE ) == SET )                                         //数据帧接收完毕

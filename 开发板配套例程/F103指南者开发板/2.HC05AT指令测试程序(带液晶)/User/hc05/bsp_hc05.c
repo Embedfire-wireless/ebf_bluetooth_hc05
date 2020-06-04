@@ -74,7 +74,7 @@ uint8_t HC05_Send_CMD(char* cmd,uint8_t clean)
 			{ 
 				uint16_t len;
 				char * redata;
-				
+			
 				delay_ms(10);
 				
 				redata = get_rebuff(&len); 
