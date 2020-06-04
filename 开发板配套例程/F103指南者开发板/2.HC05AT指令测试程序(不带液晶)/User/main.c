@@ -87,10 +87,14 @@ int main(void)
 	{	
 	  if(DEBUG_USART_ReceiveData.receive_data_flag == 1)
 		{			
+			DEBUG_USART_ReceiveData.uart_buff[DEBUG_USART_ReceiveData.datanum] = 0;
 			if(strstr((char *)DEBUG_USART_ReceiveData.uart_buff,"AT"))//如果数据是以AT开头的，就把KEY置高，设置蓝牙模块
 			{
 				BLT_KEY_HIGHT;
-				Usart_SendStr_length(BLT_USARTx,DEBUG_USART_ReceiveData.uart_buff,DEBUG_USART_ReceiveData.datanum);
+				delay_ms(20);
+				Usart_SendStr_length(BLT_USARTx,DEBUG_USART_ReceiveData.uart_buff,DEBUG_USART_ReceiveData.datanum);	
+			  Usart_SendStr_length(BLT_USARTx,"\r\n",2);	
+				BLT_KEY_LOW;
 			}else if(strstr((char *)DEBUG_USART_ReceiveData.uart_buff,"RED_LED"))
 			{
 				LED1_TOGGLE;
@@ -105,17 +109,17 @@ int main(void)
 		}
 		if(BLT_USART_ReceiveData.receive_data_flag == 1)
 		{
-			if(strstr((char *)DEBUG_USART_ReceiveData.uart_buff,"RED_LED"))//在这里可以自己定义想要接收的字符串然后处理
+			BLT_USART_ReceiveData.uart_buff[BLT_USART_ReceiveData.datanum] = 0;
+			if(strstr((char *)BLT_USART_ReceiveData.uart_buff,"RED_LED"))//在这里可以自己定义想要接收的字符串然后处理
 			{
 				LED1_TOGGLE; //这里接收到串口调试助手或者是手机发来的 “RED_LED”就会把板子上面的红灯取反一次
-				clean_rebuff();
 			}
 			else
 			{			
-				Usart_SendStr_length(DEBUG_USARTx,BLT_USART_ReceiveData.uart_buff,BLT_USART_ReceiveData.datanum);
-			  
+				Usart_SendStr_length(DEBUG_USARTx,BLT_USART_ReceiveData.uart_buff,BLT_USART_ReceiveData.datanum); 
+			  Usart_SendStr_length(DEBUG_USARTx,"\r\n",2);				
 			}
-
+        clean_rebuff();
 		}
 	}
 }

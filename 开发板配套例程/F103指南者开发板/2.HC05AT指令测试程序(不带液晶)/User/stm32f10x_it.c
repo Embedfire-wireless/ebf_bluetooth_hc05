@@ -165,8 +165,11 @@ void DEBUG_USART_IRQHandler(void)
 				ucCh = USART_ReceiveData(DEBUG_USARTx);
 				if(DEBUG_USART_ReceiveData.datanum < UART_BUFF_SIZE)
 					{
-						DEBUG_USART_ReceiveData.uart_buff[DEBUG_USART_ReceiveData.datanum] = ucCh;
-            DEBUG_USART_ReceiveData.datanum++;
+						if((ucCh != 0x0a) && (ucCh != 0x0d))
+						{
+							DEBUG_USART_ReceiveData.uart_buff[DEBUG_USART_ReceiveData.datanum] = ucCh;                 //不接收换行回车
+              DEBUG_USART_ReceiveData.datanum++;
+						}
 					}         
        }
 		if(USART_GetITStatus( DEBUG_USARTx, USART_IT_IDLE ) == SET )                                         //数据帧接收完毕

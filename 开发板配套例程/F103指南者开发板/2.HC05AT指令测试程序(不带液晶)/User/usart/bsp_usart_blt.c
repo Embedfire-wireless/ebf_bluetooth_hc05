@@ -123,8 +123,11 @@ void bsp_USART_Process(void)
 				ucCh = USART_ReceiveData(BLT_USARTx);
 				if(BLT_USART_ReceiveData.datanum < UART_BUFF_SIZE)
 					{
-						BLT_USART_ReceiveData.uart_buff[BLT_USART_ReceiveData.datanum] = ucCh;
-            BLT_USART_ReceiveData.datanum++;
+						if((ucCh != 0x0a) && (ucCh != 0x0d))
+						{
+							BLT_USART_ReceiveData.uart_buff[BLT_USART_ReceiveData.datanum] = ucCh;                 //不接收换行回车
+              BLT_USART_ReceiveData.datanum++;
+						}
 					}         
        }
 		if(USART_GetITStatus( BLT_USARTx, USART_IT_IDLE ) == SET )                                         //数据帧接收完毕
