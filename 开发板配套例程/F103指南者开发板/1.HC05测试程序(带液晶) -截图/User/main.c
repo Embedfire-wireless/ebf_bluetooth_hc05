@@ -52,7 +52,7 @@ int main(void)
 	uint16_t len;
 	
 	static uint8_t hc05_role=0;
-	unsigned long count;
+//	unsigned long count;
 	
 	char hc05_mode[10]="SLAVE";
 	char hc05_name[30]="HC05_SLAVE";

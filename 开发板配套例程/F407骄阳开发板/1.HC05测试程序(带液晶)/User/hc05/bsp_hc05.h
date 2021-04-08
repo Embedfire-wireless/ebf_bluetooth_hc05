@@ -11,13 +11,13 @@
 
 
 /* 定义LED连接的GPIO端口, 用户只需要修改下面的代码即可改变控制的LED引脚 */
-#define BLT_INT_GPIO_PORT    	  GPIOB			                       /* GPIO端口 */
-#define BLT_INT_GPIO_CLK() 	   __HAL_RCC_GPIOB_CLK_ENABLE()		   /* GPIO端口时钟 */
-#define BLT_INT_GPIO_PIN		  	GPIO_PIN_0			                 /* 连接到HC05 INT引脚的GPIO */
+#define BLT_INT_GPIO_PORT    	  GPIOH			                       /* GPIO端口 */
+#define BLT_INT_GPIO_CLK() 	   __HAL_RCC_GPIOH_CLK_ENABLE()		   /* GPIO端口时钟 */
+#define BLT_INT_GPIO_PIN		  	GPIO_PIN_8		                 /* 连接到HC05 INT引脚的GPIO */
 
-#define BLT_KEY_GPIO_PORT    	  GPIOB			                        /* GPIO端口 */
-#define BLT_KEY_GPIO_CLK()	    __HAL_RCC_GPIOB_CLK_ENABLE()			/* GPIO端口时钟 */
-#define BLT_KEY_GPIO_PIN		    GPIO_PIN_1		                   /* 连接到HC05 KEY引脚的GPIO */
+#define BLT_KEY_GPIO_PORT    	  GPIOH		                        /* GPIO端口 */
+#define BLT_KEY_GPIO_CLK()	    __HAL_RCC_GPIOH_CLK_ENABLE()			/* GPIO端口时钟 */
+#define BLT_KEY_GPIO_PIN		    GPIO_PIN_7		                   /* 连接到HC05 KEY引脚的GPIO */
 
 
 
