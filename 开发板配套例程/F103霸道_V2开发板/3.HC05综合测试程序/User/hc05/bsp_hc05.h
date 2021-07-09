@@ -44,33 +44,27 @@
                                          printf("<<-HC05-FUNC->> Func:%s@Line:%d\n",__func__,__LINE__);\
                                        }while(0)
 
-	
 
 
+//最大蓝牙设备数量
+#define BLTDEV_MAX_NUM 10
 
-#define BLTDEV_MAX_NUM 5
-
+                                       
+                                       
 /*蓝牙地址，数字形式，分NAP，UAP，LAP段*/																			 
-typedef  struct 
-{
-	uint16_t NAP;
-	uint8_t 	UAP;
-	uint32_t LAP;
-}BLTAddr;
-
 
 typedef  struct 
 {
 	uint8_t num;		//扫描到的蓝牙设备数量
-	
-	BLTAddr addr[BLTDEV_MAX_NUM];	//蓝牙设备地址，数字形式
-	
+		
 	char unpraseAddr[BLTDEV_MAX_NUM][50];	//蓝牙设备地址，字符串形式，方便扫描时和连接时使用
 	
 	char name[BLTDEV_MAX_NUM][50];	//蓝牙设备的名字
 	
 }BLTDev;
 
+//蓝牙设备列表，在 bsp_hc05.c 文件中定义
+extern  BLTDev bltDevList;
 
 
 enum
@@ -93,11 +87,14 @@ enum
 																			 
 uint8_t HC05_Init(void);
 uint8_t HC05_Send_CMD(char* cmd,uint8_t clean);
-void HC05_SendString(char* str);																			 
-void strBLTAddr(BLTDev *bltDev,char delimiter);
-uint8_t getRemoteDeviceName(BLTDev *bltDev);
-void printBLTInfo(BLTDev *bltDev);
+uint8_t HC05_Send_CMD_Wait(char* cmd, uint8_t clean, uint32_t delayms); //Debug
+void HC05_SendString(char* str);
+
+uint8_t parseBltAddr(void);
+uint8_t getRemoteDeviceName(void);
+void printBLTInfo(void);
 uint8_t linkHC05(void);
+
 int get_line(char* line, char* stream ,int max_size);
 
 #endif /* _HC05_H */

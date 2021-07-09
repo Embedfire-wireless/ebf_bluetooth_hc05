@@ -19,6 +19,9 @@
 #include <stdarg.h>
 
 
+extern ReceiveData BLT_USART_ReceiveData;
+
+
 /// 配置USART接收中断
 static void BLT_NVIC_Configuration(void)
 {
@@ -115,29 +118,6 @@ void Usart_SendString( USART_TypeDef * pUSARTx, uint8_t *str)
     } while(*(str + k)!='\0');
 }
 
-//中断缓存串口数据
-ReceiveData BLT_USART_ReceiveData;
-void bsp_USART_Process(void)
-{
-		uint8_t ucCh; 
-    if(USART_GetITStatus(BLT_USARTx, USART_IT_RXNE) != RESET)
-    {
-      ucCh = USART_ReceiveData(BLT_USARTx);
-      if(BLT_USART_ReceiveData.datanum < UART_BUFF_SIZE)
-      {
-        if((ucCh != 0x0a) && (ucCh != 0x0d))
-        {
-          BLT_USART_ReceiveData.uart_buff[BLT_USART_ReceiveData.datanum] = ucCh;                 //不接收换行回车
-          BLT_USART_ReceiveData.datanum++;
-        }
-      }
-    }
-		if(USART_GetITStatus( BLT_USARTx, USART_IT_IDLE ) == SET )                                         //数据帧接收完毕
-    {
-        BLT_USART_ReceiveData.receive_data_flag = 1;
-        USART_ReceiveData( BLT_USARTx );                                                              //由软件序列清除中断标志位(先读USART_SR，然后读USART_DR)	
-    }	
-}
 
 
 

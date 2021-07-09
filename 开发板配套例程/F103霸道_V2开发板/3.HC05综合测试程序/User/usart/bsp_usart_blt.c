@@ -118,32 +118,9 @@ void Usart_SendString( USART_TypeDef * pUSARTx, uint8_t *str)
 
 
 
-
-
-
-
 //中断缓存串口数据
-#define UART_BUFF_SIZE      1024
 volatile    uint16_t uart_p = 0;
 uint8_t     uart_buff[UART_BUFF_SIZE];
-
-void bsp_USART_Process(void)
-{
-    if(uart_p<UART_BUFF_SIZE)
-    {
-        if(USART_GetITStatus(BLT_USARTx, USART_IT_RXNE) != RESET)
-        {
-            uart_buff[uart_p] = USART_ReceiveData(BLT_USARTx);
-            uart_p++;
-        }
-    }
-		else
-		{
-			USART_ClearITPendingBit(BLT_USARTx, USART_IT_RXNE);
-			clean_rebuff();       
-		}
-}
-
 
 
 //获取接收到的数据和长度

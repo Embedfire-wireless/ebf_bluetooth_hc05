@@ -190,11 +190,25 @@ void SysTick_Handler(void)
 {
 }*/
 
+extern volatile    uint16_t uart_p;
+extern uint8_t     uart_buff[UART_BUFF_SIZE];
+
 
 void BLT_USART_IRQHandler(void)
 {
-    bsp_USART_Process();
-
+    if(uart_p<UART_BUFF_SIZE)
+    {
+        if(USART_GetITStatus(BLT_USARTx, USART_IT_RXNE) != RESET)
+        {
+            uart_buff[uart_p] = USART_ReceiveData(BLT_USARTx);
+            uart_p++;
+        }
+    }
+		else
+		{
+			USART_ClearITPendingBit(BLT_USARTx, USART_IT_RXNE);
+			clean_rebuff();       
+		}
 }
 
 /**

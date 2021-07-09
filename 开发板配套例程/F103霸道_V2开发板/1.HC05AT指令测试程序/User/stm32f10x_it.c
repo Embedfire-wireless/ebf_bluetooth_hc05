@@ -216,9 +216,29 @@ void DEBUG_USART_IRQHandler(void)
       }	
 } 
 
+//蓝牙串口中断缓存串口数据
+ReceiveData BLT_USART_ReceiveData;
+
 void BLT_USART_IRQHandler(void)
 {
-    bsp_USART_Process();
+    uint8_t ucCh; 
+    if(USART_GetITStatus(BLT_USARTx, USART_IT_RXNE) != RESET)
+      {
+				ucCh = USART_ReceiveData(BLT_USARTx);
+				if(BLT_USART_ReceiveData.datanum < UART_BUFF_SIZE)
+					{
+						if((ucCh != 0x0a) && (ucCh != 0x0d))
+						{
+							BLT_USART_ReceiveData.uart_buff[BLT_USART_ReceiveData.datanum] = ucCh;                 //不接收换行回车
+              BLT_USART_ReceiveData.datanum++;
+						}
+					}         
+       }
+		if(USART_GetITStatus( BLT_USARTx, USART_IT_IDLE ) == SET )                                         //数据帧接收完毕
+	    {
+				  BLT_USART_ReceiveData.receive_data_flag = 1;
+		      USART_ReceiveData( BLT_USARTx );                                                              //由软件序列清除中断标志位(先读USART_SR，然后读USART_DR)	
+      }	
 
 }
 
