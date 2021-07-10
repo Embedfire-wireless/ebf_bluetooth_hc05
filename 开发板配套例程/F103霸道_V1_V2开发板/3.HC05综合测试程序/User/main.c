@@ -108,11 +108,8 @@ int main(void)
   #endif
   
 	/*复位、恢复默认状态*/
-	HC05_Send_CMD("AT+RESET\r\n",1);	
-	Delay_ms(800);
-	
+	HC05_Send_CMD("AT+RESET\r\n",1);	//复位指令发送完成之后，需要一定时间HC05才会接受下一条指令
 	HC05_Send_CMD("AT+ORGL\r\n",1);
-	Delay_ms(200);
 
 	
 	/*各种命令测试演示，默认不显示。
