@@ -30,7 +30,7 @@
 
 
 /*ÐÅÏ¢Êä³ö*/
-#define HC05_DEBUG_ON         1
+#define HC05_DEBUG_ON         0
 #define HC05_DEBUG_FUNC_ON    0
 
 #define HC05_INFO(fmt,arg...)           printf("<<-HC05-INFO->> "fmt"\n",##arg)

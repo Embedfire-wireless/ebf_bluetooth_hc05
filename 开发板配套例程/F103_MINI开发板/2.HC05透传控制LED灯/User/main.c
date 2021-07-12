@@ -28,7 +28,7 @@
 #include <stdlib.h>
 
 
-#define ENABLE_LCD_DISPLAY    //«–ªª“∫æßœ‘ æ∫Í
+//#define ENABLE_LCD_DISPLAY    //«–ªª“∫æßœ‘ æ∫Í
 
 
 

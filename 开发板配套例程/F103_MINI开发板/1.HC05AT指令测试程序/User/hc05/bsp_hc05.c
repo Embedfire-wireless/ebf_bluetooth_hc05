@@ -139,7 +139,7 @@ uint8_t HC05_Send_CMD(char* cmd,uint8_t clean)
           
           if(clean==1)
             clean_rebuff();
-          BLT_KEY_LOW;
+//          BLT_KEY_LOW;
           
           return 0; //AT÷∏¡Ó≥…π¶
         }
@@ -155,7 +155,7 @@ uint8_t HC05_Send_CMD(char* cmd,uint8_t clean)
     
   }
   
-	BLT_KEY_LOW;
+//	BLT_KEY_LOW;
 	HC05_DEBUG("HC05 send CMD fail ");
 		
 	if(clean==1)
