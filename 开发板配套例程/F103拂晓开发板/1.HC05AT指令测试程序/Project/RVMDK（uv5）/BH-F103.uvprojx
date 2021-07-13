@@ -594,9 +594,9 @@
           <GroupName>DOC</GroupName>
           <Files>
             <File>
-              <FileName>【必读】程序说明.txt</FileName>
+              <FileName>readme.txt</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\Doc\【必读】程序说明.txt</FilePath>
+              <FilePath>..\..\Doc\readme.txt</FilePath>
             </File>
           </Files>
         </Group>
