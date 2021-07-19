@@ -301,6 +301,10 @@ uint8_t parseBltAddr(void)
   char *redata;
   uint16_t len;
   
+  //清空蓝牙设备列表
+  bltDevList.num = 0;
+  
+  
   HC05_INFO("正在查询设备列表...");
   HC05_Send_CMD("AT+INQ\r\n",0);
 //  HC05_Send_CMD_Wait("AT+INQ\r\n",0, 5000);  //固定延时 5s
@@ -421,11 +425,11 @@ uint8_t getRemoteDeviceName(void)
 		}
 		else
 		{
-			clean_rebuff();
-			return 1;	
+			strcpy(bltDevList.name[i], "<名字获取失败>");
+      HC05_INFO("蓝牙名字获取失败！\r\n");
 		}
 		
-		clean_rebuff();
+		clean_rebuff(); //清空缓存
 	
 	}
 	
@@ -442,7 +446,14 @@ void printBLTInfo(void)
 {
 	uint8_t i;
 
+	#ifdef ENABLE_LCD_DISPLAY
 	char disp_buff[100];
+  
+  sprintf(disp_buff," %d device found.",bltDevList.num);
+  LCD_SetColors(RED,BLACK);
+  ILI9341_Clear(0,120,240,200);
+  ILI9341_DispString_EN( 50, 120,disp_buff );
+  #endif
 	
 	if(bltDevList.num==0)
 	{
@@ -451,12 +462,6 @@ void printBLTInfo(void)
 	else
 	{
 		HC05_INFO("扫描到 %d 个蓝牙设备",bltDevList.num);
-		
-		sprintf(disp_buff," %d device found.",bltDevList.num);
-		
-		LCD_SetColors(RED,BLACK);
-		ILI9341_Clear(0,120,240,200);
-		ILI9341_DispString_EN( 50, 120,disp_buff );
 
 		for(i=0;i<bltDevList.num;i++)
 		{
@@ -464,6 +469,7 @@ void printBLTInfo(void)
 			HC05_INFO("Device Addr: %s",bltDevList.unpraseAddr[i]);
 			HC05_INFO("Device name: %s",bltDevList.name[i]);
 			
+			#ifdef ENABLE_LCD_DISPLAY
 			LCD_SetColors(YELLOW,BLACK);
 			sprintf(disp_buff," /*******Device[%d]********/",i);
 			ILI9341_DispString_EN( 5, 140+i*60,disp_buff );
@@ -473,6 +479,7 @@ void printBLTInfo(void)
 			
 			sprintf(disp_buff,"Device name: %s",bltDevList.name[i]);
 			ILI9341_DispString_EN( 5, 180+i*60,disp_buff );
+      #endif
 		}
 	}
 
@@ -500,9 +507,11 @@ uint8_t linkHC05(void)
 		{
 			HC05_INFO("搜索到远程HC05模块，即将进行配对连接...");
 			
+			#ifdef ENABLE_LCD_DISPLAY
 			LCD_SetColors(YELLOW,BLACK);
 			ILI9341_Clear(0,80,240,20);
 			ILI9341_DispString_EN( 5, 80,"Found a HC05 ,conecting..." );
+      #endif
 			
 			//配对
 			sprintf(cmdbuff,"AT+PAIR=%s,20\r\n",bltDevList.unpraseAddr[i]);

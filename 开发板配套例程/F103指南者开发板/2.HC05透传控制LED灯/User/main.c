@@ -30,9 +30,6 @@
 
 
 
-//#define ENABLE_LCD_DISPLAY    //«–ªª“∫æßœ‘ æ∫Í
-
-
 extern ReceiveData DEBUG_USART_ReceiveData;
 extern ReceiveData BLT_USART_ReceiveData;
 extern int hc05_inquery_connect;

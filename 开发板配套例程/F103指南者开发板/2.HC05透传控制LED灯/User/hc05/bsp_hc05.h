@@ -46,6 +46,13 @@
 
 
 
+
+//#define ENABLE_LCD_DISPLAY    //切换液晶显示宏 使用野火【电阻触摸屏ILI9341_XPT2046_3.2_2.8寸】
+
+
+
+
+
 //最大蓝牙设备数量
 #define BLTDEV_MAX_NUM 10
 

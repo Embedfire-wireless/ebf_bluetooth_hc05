@@ -300,6 +300,9 @@ uint8_t parseBltAddr(void)
   char *redata;
   uint16_t len;
   
+  //清空蓝牙设备列表
+  bltDevList.num = 0;
+  
   HC05_INFO("正在查询设备列表...");
   HC05_Send_CMD("AT+INQ\r\n",0);
 //  HC05_Send_CMD_Wait("AT+INQ\r\n",0, 5000);  //固定延时 5s
@@ -420,11 +423,11 @@ uint8_t getRemoteDeviceName(void)
 		}
 		else
 		{
-			clean_rebuff();
-			return 1;	
+			strcpy(bltDevList.name[i], "<名字获取失败>");
+      HC05_INFO("蓝牙名字获取失败！\r\n");
 		}
 		
-		clean_rebuff();
+		clean_rebuff(); //清空缓存
 	
 	}
 	

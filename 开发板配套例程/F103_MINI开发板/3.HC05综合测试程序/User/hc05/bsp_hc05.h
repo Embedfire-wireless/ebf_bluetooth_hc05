@@ -19,7 +19,6 @@
 #define BLT_KEY_GPIO_CLK 	    RCC_APB2Periph_GPIOA		/* GPIO端口时钟 */
 #define BLT_KEY_GPIO_PIN		    GPIO_Pin_7		          /* 连接到HC05 KEY引脚的GPIO */
 
-//注：要是 AT+INIT 指令出现 ERROR(17) 错误，就把 BLT_KEY 引脚直接接3.3V高电平.
 
 
 #define BLT_KEY_HIGHT  		GPIO_SetBits(BLT_KEY_GPIO_PORT, BLT_KEY_GPIO_PIN);
@@ -44,6 +43,11 @@
                                          if(HC05_DEBUG_FUNC_ON)\
                                          printf("<<-HC05-FUNC->> Func:%s@Line:%d\n",__func__,__LINE__);\
                                        }while(0)
+
+
+
+//#define ENABLE_LCD_DISPLAY    //切换液晶显示宏 使用野火【电阻触摸屏ILI9341_XPT2046_3.2_2.8寸】
+
 
 
 

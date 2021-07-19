@@ -1,7 +1,7 @@
 HC05 综合测试实验
 
 注：
-1. 取消注释 main.c 文件里面 ENABLE_LCD_DISPLAY 宏，可以切换到带LCD液晶显示的模式。
+1. 取消注释 bsp_hc05.h 文件里面 ENABLE_LCD_DISPLAY 宏，可以切换到带LCD液晶显示的模式。
 2. 将 bsp_hc05.h 文件里面 HC05_DEBUG_ON 宏定义设置为 1，可以让程序输出详细的调试信息，方便了解程序底层和调试。
 
 

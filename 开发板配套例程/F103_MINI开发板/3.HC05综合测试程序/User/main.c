@@ -29,9 +29,6 @@
 
 
 
-//#define ENABLE_LCD_DISPLAY    //切换液晶显示宏
-
-
 extern uint32_t Task_Delay_Group[]; //此处作为他用：用于产生一个随机数
 extern int hc05_inquery_connect;
 extern int hc05_check_recvbuff;
